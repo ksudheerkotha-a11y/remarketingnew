@@ -1,7 +1,8 @@
 (function () {
   "use strict";
   var ENDPOINT = "https://remarketingnew.vercel.app/api/collect";
-  var SITE_ID = "site_a";
+
+  var SITE_ID = "sellsynapse";
   var VISITOR_KEY = "_vid";
   var SESSION_KEY = "_sid";
   
