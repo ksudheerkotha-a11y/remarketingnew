@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  var ENDPOINT = "https://re-marketing-pink.vercel.app/api/collect";
+  var ENDPOINT = "https://remarketingnew.vercel.app/api/collect";
   var SITE_ID = "site_a";
   var VISITOR_KEY = "_vid";
   var SESSION_KEY = "_sid";
