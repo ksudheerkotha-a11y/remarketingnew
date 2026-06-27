@@ -4,7 +4,7 @@
   var SITE_ID = "site_a";
   var VISITOR_KEY = "_vid";
   var SESSION_KEY = "_sid";
-
+  
   function uuid() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
