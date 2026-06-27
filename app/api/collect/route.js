@@ -32,7 +32,7 @@ export async function POST(req) {
       event: String(e.event).slice(0, 64),
       url: e.url || null,
       path: e.path || null,
-      referrer: e.ref || null,
+      referrer: e.referrer || null,
       title: e.title || null,
       props: e.props || {},
       ip,
