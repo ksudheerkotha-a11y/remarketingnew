@@ -37,6 +37,10 @@ export async function POST(req) {
       props: e.props || {},
       ip,
       user_agent: ua,
+      utm_medium: e.utm_medium || null,
+      utm_campaign: e.utm_campaign || null,
+      utm_term: e.utm_term || null,
+      utm_content: e.utm_content || null,
       occurred_at: e.ts ? new Date(e.ts).toISOString() : new Date().toISOString(),
     });
     if (error) {
