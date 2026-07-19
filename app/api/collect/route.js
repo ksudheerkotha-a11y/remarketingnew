@@ -23,10 +23,15 @@ const IRPID_PARTNERS = {
   // "6247000": "TODO",
 };
 
-// utm_source / client-sent source values that mean "affiliate".
-const KNOWN_AFFILIATE_UTM = new Set([
-  "affiliate_john",
-]);
+// Placeholder / seed values that should NEVER be trusted as a real partner.
+// e.g. "affiliate_john" is test data, not an actual affiliate. These still
+// classify as affiliate (the medium says so) but get flagged, not credited.
+const TEST_SOURCE_PATTERN =
+  /(^|_)(john|jane|doe|test|demo|sample|dummy|foo|bar|placeholder)($|_|\d)/i;
+
+function looksLikeTestSource(s) {
+  return !!s && TEST_SOURCE_PATTERN.test(s);
+}
 
 // Search engines -> organic.
 const SEARCH_HOSTS = [
@@ -138,18 +143,20 @@ export function classifyTraffic({
     };
   }
 
-  // --- Layer 3: explicit affiliate via UTM / client source -----------------
-  if (
-    (utmMedium && utmMedium.toLowerCase() === "affiliate") ||
-    (utmSource && KNOWN_AFFILIATE_UTM.has(utmSource.toLowerCase()))
-  ) {
+  // --- Layer 3: explicit affiliate via UTM medium --------------------------
+  // Rely on the generic signal (utm_medium=affiliate) — no curated allowlist.
+  // A placeholder utm_source like "affiliate_john" is flagged, not credited:
+  // partner is left null and suspected_test=true so it can't pollute reports.
+  if (utmMedium && utmMedium.toLowerCase() === "affiliate") {
+    const isTest = looksLikeTestSource(utmSource);
     return {
       source: "affiliate",
       network: null,
-      partner: utmSource || null,
+      partner: isTest ? null : (utmSource || null),
       partner_id: null,
       placement: placement || null,
       campaign: utmCampaign || null,
+      suspected_test: isTest,
       raw: { utm_source: utmSource, utm_medium: utmMedium },
     };
   }
